@@ -55,6 +55,9 @@ cover/
 *.mo
 *.pot
 
+# Knowledgebase
+fau_rag_opt/Knowledgebase/*
+
 # Django stuff:
 *.log
 local_settings.py
