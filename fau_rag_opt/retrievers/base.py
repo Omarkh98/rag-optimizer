@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 
-from fau_rag_opt.constants import CONFIG_FILE_PATH
+from fau_rag_opt.constants.my_constants import CONFIG_FILE_PATH
 from fau_rag_opt.helpers.utils import read_yaml
 
 

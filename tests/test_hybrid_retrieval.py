@@ -6,12 +6,12 @@ from fau_rag_opt.retrievers.base import retriever_config
 
 from fau_rag_opt.helpers.loader import MetadataLoader
 
-from fau_rag_opt.constants import METADATA_PATH
+from fau_rag_opt.constants.my_constants import METADATA_PATH
 
 @pytest.mark.asyncio
 async def test_hybrid_retrieve():
     # query = "What support does FAU offer students?"
-    query = "Tell me about the Data Science program?"
+    query = "I'm interested in learning more about sailing opportunities at FAU. Can you tell me about the different types of sailing courses offered?"
 
     loader = MetadataLoader(METADATA_PATH)
     metadata = loader.load()[:10]

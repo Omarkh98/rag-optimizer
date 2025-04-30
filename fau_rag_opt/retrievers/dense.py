@@ -7,7 +7,7 @@ from fau_rag_opt.retrievers.base import (RetrieverConfig,
 
 from sklearn.metrics.pairwise import cosine_similarity
 
-from fau_rag_opt.constants import TOP_K
+from fau_rag_opt.constants.my_constants import TOP_K
 
 import sys
 import time

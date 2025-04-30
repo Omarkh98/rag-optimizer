@@ -3,7 +3,7 @@ from fau_rag_opt.retrievers.dense import dense_retrieval_instance
 from fau_rag_opt.helpers.utils import load_vector_db
 from fau_rag_opt.helpers.loader import MetadataLoader
 
-from fau_rag_opt.constants import (METADATA_PATH, 
+from fau_rag_opt.constants.my_constants import (METADATA_PATH, 
                                    VECTORSTORE_PATH)
 
 @pytest.mark.asyncio

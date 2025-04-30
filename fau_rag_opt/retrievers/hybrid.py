@@ -3,7 +3,7 @@ from fau_rag_opt.helpers.exception import CustomException
 from fau_rag_opt.retrievers.dense import dense_retrieval_instance
 from fau_rag_opt.retrievers.sparse import sparse_retrieval_instance
 
-from fau_rag_opt.constants import (HYBRID_ALPHA,
+from fau_rag_opt.constants.my_constants import (HYBRID_ALPHA,
                                    TOP_K)
 
 import sys

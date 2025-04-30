@@ -1,2 +1,7 @@
 retriever_transformer:
   transformer: sentence-transformers/all-mpnet-base-v2
+
+fau_llm:
+  base_url: http://10.28.89.125:6000/v1/chat/completions
+  api_key: ""
+  model: /anvme/workspace/unrz103h-helma/base_models/MistralAWQ
