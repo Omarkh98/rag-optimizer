@@ -9,12 +9,12 @@ dense vs sparse and returns the weights for each. End Goal - Dynamically adapt t
 from ..query_classifier.labeler_config import (LabelerConfig,
                                                labeler_config)
 
+from ..query_classifier.llm_labeler import llm_labeler
+
 from ..constants.my_constants import SAVE_INTERVAL
 
 from ..helpers.labelling import LabelSetup
 
-import aiohttp
-import time
 import json
 
 class HybridWeighting:
@@ -24,57 +24,23 @@ class HybridWeighting:
         self.api_key = self.config.api_key
         self.model = self.config.model
 
-    async def llm_hybrid_weighting(self, prompt: str) -> str:
-        start_time = time.time()
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f"Bearer {self.api_key}"
-        }
-        data = {
-            "model": self.model,
-            "messages": [{"role": "user", "content": prompt}]
-        }
-
-        print(f"\n📨 Sending prompt to LLM...")
-
-        async with aiohttp.ClientSession() as session:
-            try:
-                async with session.post(self.base_url, headers=headers, json=data) as response:
-                    print(f"🔄 Received response status: {response.status}")
-                    if response.status != 200:
-                        error_message = await response.text()
-                        print(f"❗ Error message: {error_message}")
-                        raise ValueError(f"❗ LLM endpoint returned {response.status}")
-
-                    response_data = await response.json()
-
-                    if 'choices' not in response_data or len(response_data['choices']) == 0:
-                        print(f"❗ No 'choices' found in the LLM response!")
-                        raise ValueError("❗ LLM response missing 'choices'")
-
-                    answer = response_data['choices'][0]['message']['content']
-                    elapsed_time = time.time() - start_time
-                    print(f"✅ LLM answered in {elapsed_time:.2f} seconds. Label: {answer.strip()}")
-                    return answer.strip()
-            except Exception as e:
-                print(f"❗ Exception during LLM call: {str(e)}")
-                raise
-
-    async def weight_queries(self, input_path: str, output_path: str):
+    async def weight_hybrid_queries(self, input_path: str, output_path: str):
         try:
             Lsetup = LabelSetup()
 
             samples = Lsetup.load_samples(input_path)
-            existing_labels = Lsetup.load_existing_samples(output_path)
 
-            labels = existing_labels.copy()
-            unlabeled_samples = [s for s in samples if s["id"] not in labels]
+            existing_labels = Lsetup.load_existing_samples(output_path)
+            existing_ids = set(existing_labels.keys())
+
+            unlabeled_samples = [s for s in samples if s["id"] not in existing_ids]
 
             total_samples = len(samples)
-            labeled_samples = len(labels)
+            labeled_samples = len(existing_labels)
 
             print(f"Loaded {total_samples} hybrid samples, {labeled_samples} already weighted. {len(unlabeled_samples)} left to weight.\n")
-
+            
+            labels = existing_labels.copy()
             count_since_last_save = 0
 
             for i, sample in enumerate(unlabeled_samples, start=labeled_samples + 1):
@@ -93,8 +59,7 @@ class HybridWeighting:
                     'Example output: {"dense_weight": 0.7, "sparse_weight": 0.3}'
                 )
 
-                response = await self.llm_hybrid_weighting(prompt)
-
+                response = await llm_labeler(self.api_key, self.model, self.base_url, prompt)
                 raw_response = response.strip()
 
                 if raw_response.startswith("```json"):
@@ -138,4 +103,4 @@ if __name__ == "__main__":
 
 
     hybrid_weighting = HybridWeighting(labeler_config)
-    asyncio.run(hybrid_weighting.weight_queries(args.input, args.output))
+    asyncio.run(hybrid_weighting.weight_hybrid_queries(args.input, args.output))
