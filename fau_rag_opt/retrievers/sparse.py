@@ -14,7 +14,7 @@ from fau_rag_opt.retrievers.base import (RetrieverConfig,
 from sklearn.metrics.pairwise import cosine_similarity
 
 from fau_rag_opt.constants.my_constants import (METADATA_PATH,
-                       TOP_K)
+                                                TOP_K)
 
 import sys
 import time
@@ -29,24 +29,26 @@ class SparseRetrieval:
 
         # Corpus Prep
         self.corpus = preprocess_knowledgebase(metadata)
+
+        # Safety checks
+        assert isinstance(self.corpus, list)
+        assert all(isinstance(x, str) for x in self.corpus)
+
         self.document_vectors = self.vectorizer.fit_transform(self.corpus)
 
-    def compute_sparse_scores(self, query: str) -> List[float]:
+    async def compute_sparse_scores(self, query: str) -> List[float]:
         try:
             query_vector = self.vectorizer.transform([query.lower()])
             sparse_scores = cosine_similarity(query_vector, self.document_vectors).flatten().tolist()
-
             logging.info("Sparse Scores Computed Successfully!")
             return sparse_scores
-        
         except Exception as e:
             logging.error(f"Error Computing Sparse Scores: {e}")
-            raise CustomException(e,sys)
-        
+            raise CustomException(e, sys)
+
     async def retrieve(self, query: str, top_k: int = TOP_K):
         try:
             start_time = time.time()
-
             query_tokens = word_tokenize(query.lower())
             query_processed = ' '.join(query_tokens)
 
@@ -57,15 +59,8 @@ class SparseRetrieval:
             retrieved_docs = [self.metadata[i]["text"] for i in top_indices]
 
             elapsed_time = time.time() - start_time
-
             logging.info(f"Sparse retrieval completed in {elapsed_time:.4f} seconds.")
             return retrieved_docs
-
         except Exception as e:
             logging.error(f"Error during sparse retrieval: {e}")
             raise CustomException(e, sys)
-
-loader = MetadataLoader(METADATA_PATH)
-metadata_list = loader.load()
-
-sparse_retrieval_instance = SparseRetrieval(retriever_config, metadata = metadata_list)

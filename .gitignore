@@ -58,6 +58,9 @@ cover/
 # Knowledgebase
 fau_rag_opt/Knowledgebase/*
 
+# Classifiers
+fau_rag_opt/classifiers/*
+
 # Django stuff:
 *.log
 local_settings.py

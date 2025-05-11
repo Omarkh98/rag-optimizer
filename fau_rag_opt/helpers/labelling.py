@@ -32,12 +32,11 @@ class LabelSetup():
         except FileNotFoundError:
             print(f"❌ Input file '{labelled_path}' not found.")
     
-    def save_labels(self, labels: dict, labelled_path: str):
+    def save_labels(self, labels: list, labelled_path: str):
         with open(labelled_path, 'w') as file:
-            for  label_entry in labels.values():
+            for label_entry in labels:
                 json.dump(label_entry, file)
                 file.write("\n")
-
     
     def merge_samples(self, input_path: str, output_path: str):
         try:

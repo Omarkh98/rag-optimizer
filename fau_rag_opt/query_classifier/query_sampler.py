@@ -9,9 +9,8 @@ the extracted FAU user queries.
 import json
 import random
 
-def sample_queries(input_path: str, output_path: str, num_samples: int, seed: int = 42):
+def sample_queries(input_path: str, output_path: str, num_samples: int):
     try:
-        random.seed(seed)
         queries = []
 
         with open(input_path, 'r', encoding = 'utf-8') as infile:
@@ -36,7 +35,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description = "Sample random queries from extraced FAU user queries.")
     parser.add_argument("--input", type=str, required=True, help="Path to the input extracted queries JSONL file - knowledgebase/extracted_queries.jsonl")
     parser.add_argument("--output", type=str, required=True, help="Path to the output sampled queries JSONL file - knowledgebase/sampled_queries.jsonl")
-    parser.add_argument("--num_samples", type=int, default=10000, help="Number of queries to sample")
+    parser.add_argument("--num_samples", type=int, default=10, help="Number of queries to sample")
     args = parser.parse_args()
 
     sample_queries(args.input, args.output, args.num_samples)

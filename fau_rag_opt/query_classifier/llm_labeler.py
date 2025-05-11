@@ -39,7 +39,7 @@ async def llm_labeler(api_key: str, model: str, base_url: str, prompt: str) -> s
 
                     answer = response_data['choices'][0]['message']['content']
                     elapsed_time = time.time() - start_time
-                    print(f"✅ LLM answered in {elapsed_time:.2f} seconds. Label: {answer.strip()}")
+                    print(f"✅ LLM answered in {elapsed_time:.2f} seconds. Genereted Answer: {answer.strip()}")
                     return answer.strip()
             except Exception as e:
                 print(f"❗ Exception during LLM call: {str(e)}")

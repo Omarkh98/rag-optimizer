@@ -12,6 +12,6 @@ LABELLED_PATH = "fau_rag_opt/knowledgebase/labeled_sampled_queries.jsonl"
 
 HYBRID_ALPHA = 0.5
 
-TOP_K = 5
+TOP_K = 10
 
 SAVE_INTERVAL = 10
