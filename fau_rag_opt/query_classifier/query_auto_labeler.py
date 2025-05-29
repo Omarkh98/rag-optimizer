@@ -9,7 +9,7 @@ dense, sparse, or hybrid.
 from ..query_classifier.labeler_config import (LabelerConfig,
                                                labeler_config)
 
-from ..query_classifier.llm_labeler import llm_labeler
+from .llm_response import llm_response
 
 from ..constants.my_constants import SAVE_INTERVAL
 
@@ -61,7 +61,7 @@ class AutoLabeler:
                     f'Query: "{sample["query"]}"'
                 )
 
-                label = (await llm_labeler(self.api_key, self.model, self.base_url, prompt)).strip().lower()
+                label = (await llm_response(self.api_key, self.model, self.base_url, prompt)).strip().lower()
                 
                 labels[sample["id"]] = {
                     "id": sample["id"],
@@ -126,7 +126,7 @@ class AutoLabeler:
                         f'Query: "{query}"'
                     )
                 
-                label = (await llm_labeler(self.api_key, self.model, self.base_url, prompt)).strip().lower()
+                label = (await llm_response(self.api_key, self.model, self.base_url, prompt)).strip().lower()
                 print(f"🏷️ LLM label: {label}")
 
                 if label == "hybrid" and hybrid_count < hybrid_target:

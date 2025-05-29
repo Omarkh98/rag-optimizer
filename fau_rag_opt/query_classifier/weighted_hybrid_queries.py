@@ -9,7 +9,7 @@ dense vs sparse and returns the weights for each. End Goal - Dynamically adapt t
 from ..query_classifier.labeler_config import (LabelerConfig,
                                                labeler_config)
 
-from ..query_classifier.llm_labeler import llm_labeler
+from .llm_response import llm_response
 
 from ..constants.my_constants import SAVE_INTERVAL
 
@@ -59,7 +59,7 @@ class HybridWeighting:
                     'Example output: {"dense_weight": 0.7, "sparse_weight": 0.3}'
                 )
 
-                response = await llm_labeler(self.api_key, self.model, self.base_url, prompt)
+                response = await llm_response(self.api_key, self.model, self.base_url, prompt)
                 raw_response = response.strip()
 
                 if raw_response.startswith("```json"):

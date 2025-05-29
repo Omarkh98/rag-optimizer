@@ -6,6 +6,7 @@ Loads `sampled_queries.jsonl` samples and saves the labels to the samples.
 """
 
 import json
+import os
 
 class LabelSetup():
     def __init__(self):
@@ -18,6 +19,19 @@ class LabelSetup():
             for line in file:
                 samples.append(json.loads(line.strip()))
         return samples
+    
+    def already_processed(self, output_path: str):
+        processed_ids = set()
+        if os.path.exists(output_path):
+            with open(output_path, 'r') as file:
+                for line in file:
+                    try:
+                        processed_ids.add(json.loads(line)["id"])               
+                    except Exception:
+                        print(f"❌ Error")
+                        continue
+        print(f"🧹 Skipping {len(processed_ids)} already-processed samples.\n")
+        return processed_ids
     
     def load_existing_samples(self, labelled_path: str):
         try:

@@ -12,8 +12,8 @@ import time
 import logging
 
 class HybridRetrieval:
-    def __init__(self, dense_retriever: DenseRetrieval, sparse_retriever: SparseRetrieval, index):
-        self.alpha = HYBRID_ALPHA
+    def __init__(self, alpha: float, dense_retriever: DenseRetrieval, sparse_retriever: SparseRetrieval, index):
+        self.alpha = alpha
         self.dense = dense_retriever
         self.sparse = sparse_retriever
         self.index = index
@@ -52,7 +52,7 @@ class HybridRetrieval:
             raise CustomException(e, sys)
         
     @classmethod
-    def from_config(cls, config: RetrieverConfig, metadata: list, index):
+    def from_config(cls, alpha, config: RetrieverConfig, metadata: list, index):
         dense = DenseRetrieval(config)
         sparse = SparseRetrieval(config, metadata)
-        return cls(dense, sparse, index)
+        return cls(alpha, dense, sparse, index)
