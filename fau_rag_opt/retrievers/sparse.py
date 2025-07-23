@@ -1,20 +1,19 @@
 from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import nltk
+nltk.download('punkt_tab')
 from nltk.tokenize import word_tokenize
 from typing import List
 
 from fau_rag_opt.helpers.exception import CustomException
 from fau_rag_opt.helpers.utils import preprocess_knowledgebase
-from fau_rag_opt.helpers.loader import MetadataLoader
 
-from fau_rag_opt.retrievers.base import (RetrieverConfig,
-                             retriever_config)
+from fau_rag_opt.retrievers.base import RetrieverConfig
 
 from sklearn.metrics.pairwise import cosine_similarity
 
-from fau_rag_opt.constants.my_constants import (METADATA_PATH,
-                                                TOP_K)
+from fau_rag_opt.constants.my_constants import TOP_K
 
 import sys
 import time
@@ -23,13 +22,10 @@ import logging
 class SparseRetrieval:
     def __init__(self, config: RetrieverConfig, metadata: list):
         self.config = config
-        self.retriever = SentenceTransformer(self.config.transformer)
         self.vectorizer = TfidfVectorizer()
         self.metadata = metadata
 
-        # Corpus Prep
-        self.corpus = preprocess_knowledgebase(metadata)
-
+        self.corpus = preprocess_knowledgebase(self.metadata)
         # Safety checks
         assert isinstance(self.corpus, list)
         assert all(isinstance(x, str) for x in self.corpus)

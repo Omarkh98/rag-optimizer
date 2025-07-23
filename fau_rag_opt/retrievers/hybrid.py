@@ -4,8 +4,7 @@ from ..retrievers.dense import DenseRetrieval
 from ..retrievers.sparse import SparseRetrieval
 from ..retrievers.base import RetrieverConfig
 
-from fau_rag_opt.constants.my_constants import (HYBRID_ALPHA,
-                                                TOP_K)
+from fau_rag_opt.constants.my_constants import TOP_K
 
 import sys
 import time
@@ -23,7 +22,7 @@ class HybridRetrieval:
             start_time = time.time()
 
             # Computing individual scores
-            query_embeddings = self.dense.retriever.encode([query])
+            query_embeddings = self.dense._run_encode_worker(query)
             dense_scores_array, dense_indices_array = await self.dense.get_dense_scores(query_embeddings, self.index, top_k)
             dense_scores = {int(i): float(s) for i, s in zip(dense_indices_array, dense_scores_array)}
 

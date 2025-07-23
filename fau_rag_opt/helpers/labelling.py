@@ -13,11 +13,17 @@ class LabelSetup():
         pass
 
     def load_samples(self, sampled_path: str):
+        """Loads all lines from a JSONL file."""
+        if not os.path.exists(sampled_path):
+            print(f"❌ Input file '{sampled_path}' not found.")
+            return []
         samples = []
-
-        with open(sampled_path, 'r') as file:
+        with open(sampled_path, 'r', encoding='utf-8') as file:
             for line in file:
-                samples.append(json.loads(line.strip()))
+                try:
+                    samples.append(json.loads(line.strip()))
+                except json.JSONDecodeError:
+                    print(f"Skipping malformed JSON line in {sampled_path}")
         return samples
     
     def already_processed(self, output_path: str):
@@ -34,20 +40,23 @@ class LabelSetup():
         return processed_ids
     
     def load_existing_samples(self, labelled_path: str):
+        """Loads existing labeled data into a dictionary keyed by ID."""
+        if not os.path.exists(labelled_path):
+            return {}
         try:
             labels = {}
-
-            with open(labelled_path, 'r') as file:
+            with open(labelled_path, 'r', encoding='utf-8') as file:
                 for line in file:
                     entry = json.loads(line)
                     labels[entry["id"]] = entry
-
             return labels
-        except FileNotFoundError:
-            print(f"❌ Input file '{labelled_path}' not found.")
-    
+        except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
+            print(f"Error reading existing samples from '{labelled_path}': {e}")
+            return {}
+        
     def save_labels(self, labels: list, labelled_path: str):
-        with open(labelled_path, 'w') as file:
+        """Saves a list of dictionaries to a JSONL file."""
+        with open(labelled_path, 'w', encoding='utf-8') as file:
             for label_entry in labels:
                 json.dump(label_entry, file)
                 file.write("\n")
