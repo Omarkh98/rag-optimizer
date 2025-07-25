@@ -34,3 +34,5 @@ bert_score==0.3.13
 aiofiles
 imblearn
 rouge-score
+tabulate
+seaborn
