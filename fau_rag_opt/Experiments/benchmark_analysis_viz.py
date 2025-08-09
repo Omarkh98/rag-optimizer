@@ -2,7 +2,7 @@
 # benchmark_analysis.py - Analyzes the output of the retrieval benchmark.
 # ------------------------------------------------------------------------------
 """
-This script loads the detailed results from `retrieval_benchmark.jsonl`,
+Loads the detailed results from `retrieval_benchmark.jsonl`,
 performs a quantitative analysis, prints summary tables, and generates visualizations.
 """
 

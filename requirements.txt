@@ -36,3 +36,4 @@ imblearn
 rouge-score
 tabulate
 seaborn
+matplotlib
