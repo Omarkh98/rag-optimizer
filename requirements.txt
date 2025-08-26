@@ -37,3 +37,4 @@ rouge-score
 tabulate
 seaborn
 matplotlib
+streamlit

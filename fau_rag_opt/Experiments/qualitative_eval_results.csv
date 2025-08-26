@@ -1,0 +1,151 @@
+query_id,query,category,method,correctness,completeness,conciseness,fluency_coherence
+a2736b56-76d3-4ea8-89a5-7cc38ebb1a01,"Hi, I'm a student at FAU and I'm curious about the practical exercises in some of our courses. How do you think they compare to the theoretical lectures?",comparative,Hybrid,5,5,5,5
+a2736b56-76d3-4ea8-89a5-7cc38ebb1a01,"Hi, I'm a student at FAU and I'm curious about the practical exercises in some of our courses. How do you think they compare to the theoretical lectures?",comparative,Dense,5,5,5,5
+a2736b56-76d3-4ea8-89a5-7cc38ebb1a01,"Hi, I'm a student at FAU and I'm curious about the practical exercises in some of our courses. How do you think they compare to the theoretical lectures?",comparative,Sparse,4,3,3,5
+f9f59fc2-c417-4b1a-9271-31fb85d1767d,I've been thinking about the concept of friendship lately. How do different academic disciplines approach and understand friendship?,comparative,Sparse,4,4,5,5
+f9f59fc2-c417-4b1a-9271-31fb85d1767d,I've been thinking about the concept of friendship lately. How do different academic disciplines approach and understand friendship?,comparative,Hybrid,5,5,5,5
+f9f59fc2-c417-4b1a-9271-31fb85d1767d,I've been thinking about the concept of friendship lately. How do different academic disciplines approach and understand friendship?,comparative,Dense,5,5,5,5
+e3dbbd90-6bbc-4ab7-aee9-e459ac1c689e,Can you tell me about the academic programs and research opportunities at Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)?,ambiguous,Sparse,4,4,4,5
+e3dbbd90-6bbc-4ab7-aee9-e459ac1c689e,Can you tell me about the academic programs and research opportunities at Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)?,ambiguous,Hybrid,5,5,5,5
+e3dbbd90-6bbc-4ab7-aee9-e459ac1c689e,Can you tell me about the academic programs and research opportunities at Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)?,ambiguous,Dense,3,3,3,3
+8822045a-50ba-43df-975b-5e61c84f5ef4,I heard FAU has a medical faculty. Can you tell me more about it?,factual,Hybrid,5,5,5,5
+8822045a-50ba-43df-975b-5e61c84f5ef4,I heard FAU has a medical faculty. Can you tell me more about it?,factual,Sparse,1,1,1,1
+8822045a-50ba-43df-975b-5e61c84f5ef4,I heard FAU has a medical faculty. Can you tell me more about it?,factual,Dense,5,5,5,5
+df22fcfa-933b-4de8-85dd-29a5753639af,I'm a student at FAU and I'm interested in learning more about the course structure for GSPiC. Can you explain how the course is organized and what topics it covers?,factual,Hybrid,4,4,5,5
+df22fcfa-933b-4de8-85dd-29a5753639af,I'm a student at FAU and I'm interested in learning more about the course structure for GSPiC. Can you explain how the course is organized and what topics it covers?,factual,Dense,5,5,4,4
+df22fcfa-933b-4de8-85dd-29a5753639af,I'm a student at FAU and I'm interested in learning more about the course structure for GSPiC. Can you explain how the course is organized and what topics it covers?,factual,Sparse,1,1,1,1
+ec82eda4-725d-43ad-a4a5-6326a248bc39,"I've been curious about the interpretation of ancient texts, especially those that deal with love and devotion. How have different cultures approached the interpretation of love in their sacred texts?",ambiguous,Hybrid,5,5,5,5
+ec82eda4-725d-43ad-a4a5-6326a248bc39,"I've been curious about the interpretation of ancient texts, especially those that deal with love and devotion. How have different cultures approached the interpretation of love in their sacred texts?",ambiguous,Dense,3,3,3,3
+ec82eda4-725d-43ad-a4a5-6326a248bc39,"I've been curious about the interpretation of ancient texts, especially those that deal with love and devotion. How have different cultures approached the interpretation of love in their sacred texts?",ambiguous,Sparse,1,1,1,1
+5d1251ed-aa35-4e7d-b330-eca7493dce49,I'm interested in learning more about blockchain technology and its applications in business. Can you tell me about some courses that focus on this topic?,factual,Hybrid,4,4,4,4
+5d1251ed-aa35-4e7d-b330-eca7493dce49,I'm interested in learning more about blockchain technology and its applications in business. Can you tell me about some courses that focus on this topic?,factual,Sparse,1,1,1,1
+5d1251ed-aa35-4e7d-b330-eca7493dce49,I'm interested in learning more about blockchain technology and its applications in business. Can you tell me about some courses that focus on this topic?,factual,Dense,4,4,4,4
+209469eb-0230-45a1-8eb6-0f7e374f5560,I'm curious about the research projects at FAU. Can you tell me about some of the completed projects?,factual,Dense,3,3,3,3
+209469eb-0230-45a1-8eb6-0f7e374f5560,I'm curious about the research projects at FAU. Can you tell me about some of the completed projects?,factual,Sparse,1,1,1,1
+209469eb-0230-45a1-8eb6-0f7e374f5560,I'm curious about the research projects at FAU. Can you tell me about some of the completed projects?,factual,Hybrid,3,3,3,3
+4b6ed56e-fd0c-4063-9b50-4ef55dcae03b,I heard FAU has a medical faculty. Can you tell me more about it?,factual,Sparse,1,1,1,1
+4b6ed56e-fd0c-4063-9b50-4ef55dcae03b,I heard FAU has a medical faculty. Can you tell me more about it?,factual,Dense,5,5,5,5
+4b6ed56e-fd0c-4063-9b50-4ef55dcae03b,I heard FAU has a medical faculty. Can you tell me more about it?,factual,Hybrid,5,5,5,5
+be081ba6-b493-485b-a1ea-2565c9c15dd5,I've been hearing about various projects aimed at supporting people with disabilities in the workplace. Can you tell me more about any specific initiatives in this area?,factual,Dense,4,3,5,5
+be081ba6-b493-485b-a1ea-2565c9c15dd5,I've been hearing about various projects aimed at supporting people with disabilities in the workplace. Can you tell me more about any specific initiatives in this area?,factual,Hybrid,5,5,5,4
+be081ba6-b493-485b-a1ea-2565c9c15dd5,I've been hearing about various projects aimed at supporting people with disabilities in the workplace. Can you tell me more about any specific initiatives in this area?,factual,Sparse,1,1,1,1
+1d11bf99-f6c7-4cdb-a439-dd3ee1b86f94,I'm interested in learning more about the future of public administration. What are some emerging technologies that are impacting this field?,factual,Dense,5,5,5,5
+1d11bf99-f6c7-4cdb-a439-dd3ee1b86f94,I'm interested in learning more about the future of public administration. What are some emerging technologies that are impacting this field?,factual,Sparse,2,2,2,4
+1d11bf99-f6c7-4cdb-a439-dd3ee1b86f94,I'm interested in learning more about the future of public administration. What are some emerging technologies that are impacting this field?,factual,Hybrid,5,5,5,5
+ee294f0b-65f3-4ed4-978e-8d82fdfce608,"Hi there, I heard there's a regular meeting for PhD students in the biochemistry field at FAU. Can you tell me more about it?",factual,Sparse,1,1,1,1
+ee294f0b-65f3-4ed4-978e-8d82fdfce608,"Hi there, I heard there's a regular meeting for PhD students in the biochemistry field at FAU. Can you tell me more about it?",factual,Dense,3,3,3,3
+ee294f0b-65f3-4ed4-978e-8d82fdfce608,"Hi there, I heard there's a regular meeting for PhD students in the biochemistry field at FAU. Can you tell me more about it?",factual,Hybrid,3,3,3,3
+78dd142b-c41b-486b-8a2c-7cb1cb57a167,What is Osteoporose and why is it important to study it?,factual,Hybrid,5,5,5,5
+78dd142b-c41b-486b-8a2c-7cb1cb57a167,What is Osteoporose and why is it important to study it?,factual,Dense,5,5,5,5
+78dd142b-c41b-486b-8a2c-7cb1cb57a167,What is Osteoporose and why is it important to study it?,factual,Sparse,1,1,1,1
+d72d22af-755b-4b07-8967-438afa09d251,I'm curious about the virtual meeting tools available at our university. Can you tell me more about GoToMeeting and how it works?,factual,Hybrid,2,2,2,2
+d72d22af-755b-4b07-8967-438afa09d251,I'm curious about the virtual meeting tools available at our university. Can you tell me more about GoToMeeting and how it works?,factual,Dense,2,3,2,2
+d72d22af-755b-4b07-8967-438afa09d251,I'm curious about the virtual meeting tools available at our university. Can you tell me more about GoToMeeting and how it works?,factual,Sparse,3,3,3,3
+839fdab9-06e1-4711-a940-e62b86feef51,"I've been wondering about the intellectual property rights for academic works, especially when it comes to theses and dissertations. Can you explain how these rights work?",factual,Dense,5,5,5,5
+839fdab9-06e1-4711-a940-e62b86feef51,"I've been wondering about the intellectual property rights for academic works, especially when it comes to theses and dissertations. Can you explain how these rights work?",factual,Hybrid,5,5,5,5
+839fdab9-06e1-4711-a940-e62b86feef51,"I've been wondering about the intellectual property rights for academic works, especially when it comes to theses and dissertations. Can you explain how these rights work?",factual,Sparse,3,3,3,3
+a339090b-daa5-43ac-a46c-5da7ce025a74,I've heard about the concept of macro-regions in Europe. Can you tell me more about what they are and how they are established?,factual,Dense,5,5,5,5
+a339090b-daa5-43ac-a46c-5da7ce025a74,I've heard about the concept of macro-regions in Europe. Can you tell me more about what they are and how they are established?,factual,Hybrid,5,5,5,5
+a339090b-daa5-43ac-a46c-5da7ce025a74,I've heard about the concept of macro-regions in Europe. Can you tell me more about what they are and how they are established?,factual,Sparse,1,1,1,1
+a1efa335-891d-4bd3-9b46-8e8c737b2499,What is electrospinning and how is it used in medical applications?,factual,Dense,5,5,5,5
+a1efa335-891d-4bd3-9b46-8e8c737b2499,What is electrospinning and how is it used in medical applications?,factual,Hybrid,5,5,5,5
+a1efa335-891d-4bd3-9b46-8e8c737b2499,What is electrospinning and how is it used in medical applications?,factual,Sparse,1,1,1,1
+ac62b79e-acb8-4162-a8d6-6b32ff426747,I've heard there were some issues with the additional tickets for the semester ticket recently. Can you tell me more about what happened?,factual,Sparse,1,1,1,1
+ac62b79e-acb8-4162-a8d6-6b32ff426747,I've heard there were some issues with the additional tickets for the semester ticket recently. Can you tell me more about what happened?,factual,Dense,5,5,5,5
+ac62b79e-acb8-4162-a8d6-6b32ff426747,I've heard there were some issues with the additional tickets for the semester ticket recently. Can you tell me more about what happened?,factual,Hybrid,1,1,1,1
+3f790e20-aa90-4679-9d90-e2151fb32ac8,What is the FAU Open Research Challenge?,factual,Dense,5,5,5,5
+3f790e20-aa90-4679-9d90-e2151fb32ac8,What is the FAU Open Research Challenge?,factual,Hybrid,5,5,5,5
+3f790e20-aa90-4679-9d90-e2151fb32ac8,What is the FAU Open Research Challenge?,factual,Sparse,1,1,1,1
+7fb4b7f6-b326-4e15-90c1-4c2a83442997,What is digital sovereignty and why is it important?,factual,Dense,5,5,5,5
+7fb4b7f6-b326-4e15-90c1-4c2a83442997,What is digital sovereignty and why is it important?,factual,Sparse,2,2,2,2
+7fb4b7f6-b326-4e15-90c1-4c2a83442997,What is digital sovereignty and why is it important?,factual,Hybrid,5,5,5,5
+a97de9d3-3f5d-436c-8aa1-196336ac829b,I'm curious about how digital technologies are influencing creativity and connectivity in music. Can you tell me more about this?,ambiguous,Sparse,2,2,2,5
+a97de9d3-3f5d-436c-8aa1-196336ac829b,I'm curious about how digital technologies are influencing creativity and connectivity in music. Can you tell me more about this?,ambiguous,Dense,4,4,5,5
+a97de9d3-3f5d-436c-8aa1-196336ac829b,I'm curious about how digital technologies are influencing creativity and connectivity in music. Can you tell me more about this?,ambiguous,Hybrid,4,4,5,5
+bb9a5080-4bf5-47c9-9f78-d81651414fd0,What kind of support does FAU offer for postdoctoral researchers and habilitation candidates?,factual,Hybrid,4,4,4,4
+bb9a5080-4bf5-47c9-9f78-d81651414fd0,What kind of support does FAU offer for postdoctoral researchers and habilitation candidates?,factual,Dense,4,4,4,4
+bb9a5080-4bf5-47c9-9f78-d81651414fd0,What kind of support does FAU offer for postdoctoral researchers and habilitation candidates?,factual,Sparse,3,3,3,3
+138032bc-444f-444d-965d-e589b7b51cac,What is the Xcelerator Academy from Siemens and how does it benefit FAU students and faculty?,factual,Dense,1,2,3,3
+138032bc-444f-444d-965d-e589b7b51cac,What is the Xcelerator Academy from Siemens and how does it benefit FAU students and faculty?,factual,Sparse,5,5,5,5
+138032bc-444f-444d-965d-e589b7b51cac,What is the Xcelerator Academy from Siemens and how does it benefit FAU students and faculty?,factual,Hybrid,1,2,3,3
+99e1ba1d-916f-4206-8330-a0da4ab63020,"Ich habe gehört, dass die FAU ein interessantes Forschungszentrum namens ELINAS hat. Was ist das eigentlich?",factual,Dense,5,4,4,5
+99e1ba1d-916f-4206-8330-a0da4ab63020,"Ich habe gehört, dass die FAU ein interessantes Forschungszentrum namens ELINAS hat. Was ist das eigentlich?",factual,Hybrid,3,4,4,5
+99e1ba1d-916f-4206-8330-a0da4ab63020,"Ich habe gehört, dass die FAU ein interessantes Forschungszentrum namens ELINAS hat. Was ist das eigentlich?",factual,Sparse,5,5,5,5
+8515532f-6951-45f4-9420-c82ef811ead1,Can you tell me about the academic programs at Friedrich-Alexander-Universität Erlangen-Nürnberg?,factual,Sparse,4,2,3,3
+8515532f-6951-45f4-9420-c82ef811ead1,Can you tell me about the academic programs at Friedrich-Alexander-Universität Erlangen-Nürnberg?,factual,Hybrid,1,1,1,1
+8515532f-6951-45f4-9420-c82ef811ead1,Can you tell me about the academic programs at Friedrich-Alexander-Universität Erlangen-Nürnberg?,factual,Dense,1,1,1,1
+80ea0a2b-4ce6-4042-81fb-f6835961310e,"I came across a list of papers and articles about giftedness, talent development, and related topics. Have you ever read anything on these subjects?",ambiguous,Hybrid,5,5,5,5
+80ea0a2b-4ce6-4042-81fb-f6835961310e,"I came across a list of papers and articles about giftedness, talent development, and related topics. Have you ever read anything on these subjects?",ambiguous,Dense,5,5,5,5
+80ea0a2b-4ce6-4042-81fb-f6835961310e,"I came across a list of papers and articles about giftedness, talent development, and related topics. Have you ever read anything on these subjects?",ambiguous,Sparse,1,1,1,1
+8345bc34-34cb-46bf-9fea-017b54fb3cc7,What is Formula Student and why is it significant for students?,factual,Hybrid,5,5,5,5
+8345bc34-34cb-46bf-9fea-017b54fb3cc7,What is Formula Student and why is it significant for students?,factual,Sparse,1,1,1,1
+8345bc34-34cb-46bf-9fea-017b54fb3cc7,What is Formula Student and why is it significant for students?,factual,Dense,5,5,3,5
+632c6fca-bf12-44c1-976b-326376de3727,I've heard about Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU). What kind of academic events and lectures does FAU host?,factual,Hybrid,5,5,5,5
+632c6fca-bf12-44c1-976b-326376de3727,I've heard about Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU). What kind of academic events and lectures does FAU host?,factual,Sparse,3,3,3,3
+632c6fca-bf12-44c1-976b-326376de3727,I've heard about Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU). What kind of academic events and lectures does FAU host?,factual,Dense,5,5,5,5
+e008198d-d882-4dc9-b28a-da13e4ff45c3,"What does good scientific practice entail, and how can one ensure they are adhering to it?",factual,Sparse,3,3,3,3
+e008198d-d882-4dc9-b28a-da13e4ff45c3,"What does good scientific practice entail, and how can one ensure they are adhering to it?",factual,Dense,5,5,5,5
+e008198d-d882-4dc9-b28a-da13e4ff45c3,"What does good scientific practice entail, and how can one ensure they are adhering to it?",factual,Hybrid,5,5,5,5
+dee65f29-90b4-4154-b91b-5a31924bb779,What can you tell me about Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)?,factual,Sparse,5,5,5,5
+dee65f29-90b4-4154-b91b-5a31924bb779,What can you tell me about Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)?,factual,Dense,2,1,2,3
+dee65f29-90b4-4154-b91b-5a31924bb779,What can you tell me about Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)?,factual,Hybrid,2,2,2,2
+892eb013-2cdf-460f-8f9c-e58a1e56f1fe,"I've been wondering, can companies be considered to have human rights?",ambiguous,Sparse,1,1,1,1
+892eb013-2cdf-460f-8f9c-e58a1e56f1fe,"I've been wondering, can companies be considered to have human rights?",ambiguous,Dense,1,1,1,1
+892eb013-2cdf-460f-8f9c-e58a1e56f1fe,"I've been wondering, can companies be considered to have human rights?",ambiguous,Hybrid,3,3,3,3
+2fa5a19f-ecc4-497d-b75c-cf4185784646,What kind of academic programs does Friedrich-Alexander-Universität Erlangen-Nürnberg offer in the field of sports?,factual,Hybrid,4,4,4,4
+2fa5a19f-ecc4-497d-b75c-cf4185784646,What kind of academic programs does Friedrich-Alexander-Universität Erlangen-Nürnberg offer in the field of sports?,factual,Dense,4,4,4,4
+2fa5a19f-ecc4-497d-b75c-cf4185784646,What kind of academic programs does Friedrich-Alexander-Universität Erlangen-Nürnberg offer in the field of sports?,factual,Sparse,1,1,1,1
+9108b5e4-c71b-439a-afac-7cb0f921401f,Can you tell me about the academic programs at Friedrich-Alexander-Universität Erlangen-Nürnberg?,ambiguous,Hybrid,1,1,1,1
+9108b5e4-c71b-439a-afac-7cb0f921401f,Can you tell me about the academic programs at Friedrich-Alexander-Universität Erlangen-Nürnberg?,ambiguous,Sparse,4,2,3,4
+9108b5e4-c71b-439a-afac-7cb0f921401f,Can you tell me about the academic programs at Friedrich-Alexander-Universität Erlangen-Nürnberg?,ambiguous,Dense,1,1,1,1
+fda1e5b1-e019-4e6e-9052-5f41cb92cfc5,I've heard about People Analytics in HR. What is it exactly and why is it important?,factual,Hybrid,5,5,5,5
+fda1e5b1-e019-4e6e-9052-5f41cb92cfc5,I've heard about People Analytics in HR. What is it exactly and why is it important?,factual,Dense,5,2,3,3
+fda1e5b1-e019-4e6e-9052-5f41cb92cfc5,I've heard about People Analytics in HR. What is it exactly and why is it important?,factual,Sparse,5,2,3,3
+11122fdf-f8c1-46d7-a40d-5febd04ce30a,I'm studying at FAU and I noticed there's a music education professorship there. Can you tell me more about it?,factual,Dense,5,5,5,5
+11122fdf-f8c1-46d7-a40d-5febd04ce30a,I'm studying at FAU and I noticed there's a music education professorship there. Can you tell me more about it?,factual,Sparse,1,1,1,1
+11122fdf-f8c1-46d7-a40d-5febd04ce30a,I'm studying at FAU and I noticed there's a music education professorship there. Can you tell me more about it?,factual,Hybrid,5,3,3,3
+af8e4d2e-5da0-4b86-8783-b7495ef7ecb1,I'm studying at FAU and I'm trying to find some information about the medical faculty. Could you guide me to the right place?,factual,Hybrid,5,5,5,5
+af8e4d2e-5da0-4b86-8783-b7495ef7ecb1,I'm studying at FAU and I'm trying to find some information about the medical faculty. Could you guide me to the right place?,factual,Sparse,4,5,5,5
+af8e4d2e-5da0-4b86-8783-b7495ef7ecb1,I'm studying at FAU and I'm trying to find some information about the medical faculty. Could you guide me to the right place?,factual,Dense,2,2,2,2
+520e5602-34b8-48ea-9619-359b86e59c74,What kind of research is Dr. Marc Marheineke involved in?,factual,Sparse,1,1,1,1
+520e5602-34b8-48ea-9619-359b86e59c74,What kind of research is Dr. Marc Marheineke involved in?,factual,Dense,1,1,1,1
+520e5602-34b8-48ea-9619-359b86e59c74,What kind of research is Dr. Marc Marheineke involved in?,factual,Hybrid,1,1,1,1
+08ee89d8-ecee-468f-b0ca-354ad6110cd6,I've heard about Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU). Can you tell me about any notable achievements or awards associated with the university?,factual,Dense,5,5,3,2
+08ee89d8-ecee-468f-b0ca-354ad6110cd6,I've heard about Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU). Can you tell me about any notable achievements or awards associated with the university?,factual,Sparse,1,1,1,1
+08ee89d8-ecee-468f-b0ca-354ad6110cd6,I've heard about Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU). Can you tell me about any notable achievements or awards associated with the university?,factual,Hybrid,5,5,5,5
+44980cd6-9f87-4c01-bb5d-92969ee2e260,I've been hearing about innovative ways to make wastewater treatment plants more energy-efficient. What are some of the latest advancements in this area?,factual,Dense,2,2,2,2
+44980cd6-9f87-4c01-bb5d-92969ee2e260,I've been hearing about innovative ways to make wastewater treatment plants more energy-efficient. What are some of the latest advancements in this area?,factual,Hybrid,3,2,3,3
+44980cd6-9f87-4c01-bb5d-92969ee2e260,I've been hearing about innovative ways to make wastewater treatment plants more energy-efficient. What are some of the latest advancements in this area?,factual,Sparse,4,4,4,4
+2859c6f4-4072-4d98-8c41-6ad6aaf000c1,I've been hearing a lot about the impact of migration on various sectors. What kind of effects does migration have on the nursing and care sector?,factual,Sparse,1,1,1,1
+2859c6f4-4072-4d98-8c41-6ad6aaf000c1,I've been hearing a lot about the impact of migration on various sectors. What kind of effects does migration have on the nursing and care sector?,factual,Hybrid,5,5,5,5
+2859c6f4-4072-4d98-8c41-6ad6aaf000c1,I've been hearing a lot about the impact of migration on various sectors. What kind of effects does migration have on the nursing and care sector?,factual,Dense,5,5,5,5
+7882cd04-e2be-48cb-ab96-4f3185351176,I've always been curious about the sudden explosion of biodiversity on Earth. Can you explain what might have caused this rapid increase in the number of species?,factual,Dense,5,5,5,4
+7882cd04-e2be-48cb-ab96-4f3185351176,I've always been curious about the sudden explosion of biodiversity on Earth. Can you explain what might have caused this rapid increase in the number of species?,factual,Sparse,1,1,1,1
+7882cd04-e2be-48cb-ab96-4f3185351176,I've always been curious about the sudden explosion of biodiversity on Earth. Can you explain what might have caused this rapid increase in the number of species?,factual,Hybrid,5,5,5,5
+011e249c-50b9-4da6-bd92-11b0859d4e1b,I heard that FAU's Technical Faculty conducts regular online evaluations for their teaching. Is that true?,factual,Sparse,1,1,1,1
+011e249c-50b9-4da6-bd92-11b0859d4e1b,I heard that FAU's Technical Faculty conducts regular online evaluations for their teaching. Is that true?,factual,Dense,5,5,5,5
+011e249c-50b9-4da6-bd92-11b0859d4e1b,I heard that FAU's Technical Faculty conducts regular online evaluations for their teaching. Is that true?,factual,Hybrid,5,5,5,5
+a59345d7-5308-4d71-83ff-c4f26e16849d,I'm interested in learning more about cybercrime and its impact on society. Can you tell me about any upcoming events or conferences that focus on this topic?,factual,Sparse,3,3,3,3
+a59345d7-5308-4d71-83ff-c4f26e16849d,I'm interested in learning more about cybercrime and its impact on society. Can you tell me about any upcoming events or conferences that focus on this topic?,factual,Hybrid,3,3,3,3
+a59345d7-5308-4d71-83ff-c4f26e16849d,I'm interested in learning more about cybercrime and its impact on society. Can you tell me about any upcoming events or conferences that focus on this topic?,factual,Dense,3,3,3,3
+eec46d89-6d5c-4d85-b69f-3327d8e57014,What kind of achievements and recognitions are common at universities like FAU?,factual,Sparse,5,5,5,5
+eec46d89-6d5c-4d85-b69f-3327d8e57014,What kind of achievements and recognitions are common at universities like FAU?,factual,Hybrid,4,3,2,2
+eec46d89-6d5c-4d85-b69f-3327d8e57014,What kind of achievements and recognitions are common at universities like FAU?,factual,Dense,5,5,5,5
+1d3f0f10-21f6-44ec-ba16-87da95e89e15,I'm interested in learning languages. I heard there's a Language Center at Friedrich-Alexander-Universität Erlangen-Nürnberg. Can you tell me more about it?,factual,Dense,1,1,1,1
+1d3f0f10-21f6-44ec-ba16-87da95e89e15,I'm interested in learning languages. I heard there's a Language Center at Friedrich-Alexander-Universität Erlangen-Nürnberg. Can you tell me more about it?,factual,Sparse,1,1,1,1
+1d3f0f10-21f6-44ec-ba16-87da95e89e15,I'm interested in learning languages. I heard there's a Language Center at Friedrich-Alexander-Universität Erlangen-Nürnberg. Can you tell me more about it?,factual,Hybrid,1,1,1,1
+c678f886-c562-4a4d-a943-b9a410ed0383,I'm curious about how the quality of teaching is evaluated at the Technical Faculty. Can you tell me more about the process?,factual,Sparse,1,1,1,1
+c678f886-c562-4a4d-a943-b9a410ed0383,I'm curious about how the quality of teaching is evaluated at the Technical Faculty. Can you tell me more about the process?,factual,Hybrid,5,5,5,5
+c678f886-c562-4a4d-a943-b9a410ed0383,I'm curious about how the quality of teaching is evaluated at the Technical Faculty. Can you tell me more about the process?,factual,Dense,5,5,5,5
+e8daf0f6-7459-4682-8229-c9b74b769310,"What is the Echtzeitsystemlabor at FAU, and what kind of activities or projects are involved in it?",factual,Hybrid,1,1,1,1
+e8daf0f6-7459-4682-8229-c9b74b769310,"What is the Echtzeitsystemlabor at FAU, and what kind of activities or projects are involved in it?",factual,Dense,1,1,1,1
+e8daf0f6-7459-4682-8229-c9b74b769310,"What is the Echtzeitsystemlabor at FAU, and what kind of activities or projects are involved in it?",factual,Sparse,1,1,1,1
+5ad84157-01c3-43cb-8256-1291caa1ac86,I'm curious about the enforcement of air quality standards in the EU. Can you tell me more about how these standards are implemented and enforced in different Member States?,comparative,Hybrid,1,1,1,1
+5ad84157-01c3-43cb-8256-1291caa1ac86,I'm curious about the enforcement of air quality standards in the EU. Can you tell me more about how these standards are implemented and enforced in different Member States?,comparative,Dense,2,2,2,2
+5ad84157-01c3-43cb-8256-1291caa1ac86,I'm curious about the enforcement of air quality standards in the EU. Can you tell me more about how these standards are implemented and enforced in different Member States?,comparative,Sparse,1,1,1,1
+62da0735-583f-4f60-bfc0-9d27e3a5f236,I'm curious about the advancements in organic electronics. What are some of the key developments in this field?,factual,Sparse,1,2,3,3
+62da0735-583f-4f60-bfc0-9d27e3a5f236,I'm curious about the advancements in organic electronics. What are some of the key developments in this field?,factual,Hybrid,5,4,3,3
+62da0735-583f-4f60-bfc0-9d27e3a5f236,I'm curious about the advancements in organic electronics. What are some of the key developments in this field?,factual,Dense,5,5,5,5
+9fbe1762-7e7b-4a11-b01b-1830b201527d,What kind of research is conducted at Friedrich-Alexander-Universität Erlangen-Nürnberg?,factual,Hybrid,1,1,1,1
+9fbe1762-7e7b-4a11-b01b-1830b201527d,What kind of research is conducted at Friedrich-Alexander-Universität Erlangen-Nürnberg?,factual,Dense,1,1,1,1
+9fbe1762-7e7b-4a11-b01b-1830b201527d,What kind of research is conducted at Friedrich-Alexander-Universität Erlangen-Nürnberg?,factual,Sparse,5,5,5,5
