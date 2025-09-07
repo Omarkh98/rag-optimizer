@@ -14,4 +14,11 @@ HYBRID_ALPHA = 0.5
 
 TOP_K = 10
 
+TOP_N = 5
+
 SAVE_INTERVAL = 10
+
+HYBRID_ALPHA_MAP = {'comparative': 0.8, 
+                    'ambiguous': 0.5,
+                    'factual': 0.6,
+                    'default': 0.6 }
