@@ -1,15 +1,10 @@
 # ------------------------------------------------------------------------------
-# query_classifier/labeler_config.py - 
+# query_classifier/labeler_config.py - Configuration management for the labeler
 # ------------------------------------------------------------------------------
-"""
-
-"""
-
 from dataclasses import dataclass
 
 from ..constants.my_constants import CONFIG_FILE_PATH
 from ..helpers.utils import read_yaml
-
 
 @dataclass(frozen = True)
 class LabelerConfig:
@@ -31,6 +26,5 @@ class ConfigurationManager:
     def get_labeler_config(self) -> LabelerConfig:
         return self.labeler_config
 
-# Global configuration instance - (Singleton design pattern)
 config_manager = ConfigurationManager()
 labeler_config = config_manager.get_labeler_config()

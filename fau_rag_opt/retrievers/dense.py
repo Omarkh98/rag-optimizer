@@ -1,3 +1,6 @@
+# ------------------------------------------------------------------------------
+# retrievers/dense.py - Dense retrieval implementation using SentenceTransformer and FAISS.
+# ------------------------------------------------------------------------------
 from sentence_transformers import SentenceTransformer
 from fau_rag_opt.helpers.exception import CustomException
 
@@ -21,9 +24,6 @@ class DenseRetrieval:
         self.worker_script_path = "fau_rag_opt/helpers/encode_worker.py"
 
     def _run_encode_worker(self, query: str) -> np.ndarray:
-        """
-        Calls the external worker script to encode a query in an isolated process.
-        """
         model_name = self.config.transformer
         python_executable = sys.executable
 
@@ -35,7 +35,6 @@ class DenseRetrieval:
         ]
 
         try:
-            # Execute the command and capture the output
             process = subprocess.run(
                 command,
                 capture_output=True,

@@ -1,13 +1,7 @@
 # ------------------------------------------------------------------------------
 # query_classifier/dataset_categorization.py - Employing an LLM to categorize queries into: Factual, Comparatize, or Ambiguous.
 # ------------------------------------------------------------------------------
-"""
-Loads `extracted_queries.jsonl`, parses through them, and categorizes them into 'factual', 'comparative', or 'ambiguous' to create a balanced
-benchmark dataset for evaluating RAG pipelines.
-"""
-
 import json
-import os
 import random
 import argparse
 import asyncio
@@ -29,7 +23,6 @@ class DatasetCategorizer:
         self.model = config.model
 
     def _get_prompt(self, query: str) -> str:
-        """Constructs the prompt for the LLM."""
         return (
             "You are an expert data annotator. Your task is to categorize user queries from a university's help system "
             "into one of three categories: \"factual\", \"comparative\", or \"ambiguous\".\n\n"
@@ -47,7 +40,6 @@ class DatasetCategorizer:
         )
 
     async def categorize_queries(self, input_path: str, output_path: str, target_per_category: int):
-        """Main method to load, categorize, and save queries."""
         try:
             Lsetup = LabelSetup()
 
@@ -64,7 +56,7 @@ class DatasetCategorizer:
                     "ground_truth": data["answer"]
                 })
                 except (KeyError, IndexError) as e:
-                    print(f"Skipping malformed entry in {input_path}: {e}")
+                    print(f"Skipping faulty entry in {input_path}: {e}")
 
             random.shuffle(all_queries)
             
@@ -78,13 +70,12 @@ class DatasetCategorizer:
             processed_ids = set(existing_data.keys())
             queries_to_process = [q for q in all_queries if q['id'] not in processed_ids]
 
-            print("--- Initial State ---")
+            print("Initial State:")
             print(f"Loaded {len(all_queries)} total queries from source.")
             print(f"Found {len(existing_data)} already categorized queries.")
             print(f"Processing up to {len(queries_to_process)} new queries.")
             print(f"Current counts: {dict(category_counts)}")
             print(f"Target per category: {target_per_category}")
-            print("-----------------------\n")
 
             count_since_last_save = 0
             total_queries_parsed = 0
@@ -92,11 +83,9 @@ class DatasetCategorizer:
             for query_data in queries_to_process:
                 total_queries_parsed += 1
 
-                # Check if all defined categories have met their target
-
                 required_categories = ['factual', 'comparative', 'ambiguous']
                 if all(category_counts.get(category, 0) >= target_per_category for category in required_categories):
-                    print("\n🎯 All category targets have been met. Stopping early.")
+                    print("\n All category targets have been met. Stopping early.")
                     break
 
                 print(f"[{total_queries_parsed}/{len(queries_to_process)}] Processing Query ID: {query_data['id']}")
@@ -107,7 +96,6 @@ class DatasetCategorizer:
                     response_str = await llm_response(self.api_key, self.model, self.base_url, prompt)
                     
                     raw_response = response_str.strip()
-                    # Remove ```json ... ``` if present
                     if raw_response.startswith("```json"):
                         raw_response = raw_response[len("```json"):].strip()
                     if raw_response.endswith("```"):
@@ -117,15 +105,13 @@ class DatasetCategorizer:
                     category = response_json.get("category")
 
                 except (json.JSONDecodeError, AttributeError) as e:
-                    print(f"⚠️  Could not parse LLM response, skipping. Error: {e}, Response: '{response_str}'")
                     continue
 
                 if not category or category not in ['factual', 'comparative', 'ambiguous']:
-                    print(f"⚠️  Invalid category '{category}' from LLM, skipping.")
                     continue
 
                 if category_counts[category] < target_per_category:
-                    print(f"✅  Categorized as '{category}'. Adding to dataset.")
+                    print(f" Categorized as '{category}'. Appending to dataset.")
                     category_counts[category] += 1
                     
                     new_entry = {
@@ -137,21 +123,17 @@ class DatasetCategorizer:
                     categorized_list.append(new_entry)
                     count_since_last_save += 1
                 else:
-                    print(f"ℹ️  Categorized as '{category}', but target of {target_per_category} is already met. Skipping save.")
+                    print(f" Categorized as '{category}', but target of {target_per_category} is already met. Skipping query.")
 
                 print(f"Current counts: {dict(category_counts)}\n")
 
                 if count_since_last_save >= SAVE_INTERVAL:
                     Lsetup.save_labels(categorized_list, output_path)
-                    print(f"💾 Progress saved! ({len(categorized_list)} total categorized queries)")
                     count_since_last_save = 0
             
             Lsetup.save_labels(categorized_list, output_path)
-            print("\n--- Categorization Complete ---")
-            print(f"✅ Final dataset saved to '{output_path}'.")
-            print(f"Parsed a total of {total_queries_parsed} new queries to reach the targets.")
-            print(f"Final counts in dataset: {dict(category_counts)}")
-            print("---------------------------------")
+            print("\nCategorization Completed:")
+            print(f"Final dataset saved to '{output_path}'.")
             
         except Exception as e:
             print(f"An unexpected error occurred while reading '{input_path}': {e}")
@@ -162,7 +144,7 @@ if __name__ == "__main__":
         description="Categorize queries into factual, comparative, and ambiguous categories."
     )
     parser.add_argument("--input", type=str, required=True, help="Path to `extracted_queries.jsonl`.")
-    parser.add_argument("--output", type=str, required=True, help="Path to the output categorized dataset file.")
+    parser.add_argument("--output", type=str, required=True)
     parser.add_argument("--target", type=int, default=50, help="Target number of queries for each category.")
     args = parser.parse_args()
 

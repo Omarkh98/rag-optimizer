@@ -1,10 +1,6 @@
 # ------------------------------------------------------------------------------
-# helpers/labelling.py - Labelling saving and loading.
+# helpers/labelling.py - Utilities for loading, saving, and merging labeled samples.
 # ------------------------------------------------------------------------------
-"""
-Loads `sampled_queries.jsonl` samples and saves the labels to the samples.
-"""
-
 import json
 import os
 
@@ -13,9 +9,7 @@ class LabelSetup():
         pass
 
     def load_samples(self, sampled_path: str):
-        """Loads all lines from a JSONL file."""
         if not os.path.exists(sampled_path):
-            print(f"❌ Input file '{sampled_path}' not found.")
             return []
         samples = []
         with open(sampled_path, 'r', encoding='utf-8') as file:
@@ -23,7 +17,7 @@ class LabelSetup():
                 try:
                     samples.append(json.loads(line.strip()))
                 except json.JSONDecodeError:
-                    print(f"Skipping malformed JSON line in {sampled_path}")
+                    print(f"Skipping faulty JSON line in {sampled_path}")
         return samples
     
     def already_processed(self, output_path: str):
@@ -34,13 +28,11 @@ class LabelSetup():
                     try:
                         processed_ids.add(json.loads(line)["id"])               
                     except Exception:
-                        print(f"❌ Error")
+                        print(f"Error")
                         continue
-        print(f"🧹 Skipping {len(processed_ids)} already-processed samples.\n")
         return processed_ids
     
     def load_existing_samples(self, labelled_path: str):
-        """Loads existing labeled data into a dictionary keyed by ID."""
         if not os.path.exists(labelled_path):
             return {}
         try:
@@ -55,7 +47,6 @@ class LabelSetup():
             return {}
         
     def save_labels(self, labels: list, labelled_path: str):
-        """Saves a list of dictionaries to a JSONL file."""
         with open(labelled_path, 'w', encoding='utf-8') as file:
             for label_entry in labels:
                 json.dump(label_entry, file)
@@ -64,8 +55,6 @@ class LabelSetup():
     def merge_samples(self, input_path: str, output_path: str):
         try:
             existing_samples = self.load_existing_samples(output_path)
-            print(f"📁 Loaded {len(existing_samples)} existing samples from {output_path}")
-
             new_samples = 0
 
             with open(input_path, 'r', encoding = 'utf-8') as infile:
@@ -79,10 +68,8 @@ class LabelSetup():
                 for item in existing_samples.values():
                     outfile.write(json.dumps(item, ensure_ascii = False) + "\n")
 
-            print(f"✅ Merged {new_samples} new samples from {input_path} into {output_path}")
-
         except FileNotFoundError:
-            print(f"❌ Input file '{input_path}' not found.")
+            print(f"Input file '{input_path}' not found.")
 
 if __name__ == "__main__":
     import argparse

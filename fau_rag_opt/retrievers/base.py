@@ -1,3 +1,6 @@
+# ------------------------------------------------------------------------------
+# retrievers/base.py - Configuration management for retrievers.
+# ------------------------------------------------------------------------------
 from dataclasses import dataclass
 from pathlib import Path
 

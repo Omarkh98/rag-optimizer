@@ -1,11 +1,6 @@
 # ------------------------------------------------------------------------------
 # query_classifier/eval_asnwer_quality.py - Measure how close a generated answer is to a known correct (ground truth) answer
 # ------------------------------------------------------------------------------
-"""
-RAG evaluation via answer quality, using the similarity between generated answers and ground truth answers
-to infer which retrieval method (dense, sparse, hybrid) worked best for each query.
-"""
-
 from bert_score import score as bert_score
 
 from ..query_classifier.labeler_config import LabelerConfig
@@ -80,7 +75,6 @@ class RetrieverEvaluator:
     async def generate_answers(self, input_path: str, output_path: str):
         Lsetup = LabelSetup()
         samples = Lsetup.load_samples(input_path)
-        print(f"✅ Loaded {len(samples)} samples.\n")
 
         already_processed = Lsetup.already_processed(output_path)
 
@@ -93,17 +87,14 @@ class RetrieverEvaluator:
                 query = sample["query"]
                 query_id = sample["id"]
                 gt_answer = sample["answer"]
-                print(f"🔍 [{i+1}/{len(samples_to_process)}] Processing query: {query_id}")
 
                 try:
-                    print("📄 Retrieving documents...")
                     docs_dense, docs_sparse, docs_hybrid = await self.retrieve_docs(query)
 
                     dense_context = self.format_docs(docs_dense)
                     sparse_context = self.format_docs(docs_sparse)
                     hybrid_context = self.format_docs(docs_hybrid)
 
-                    print("🔁 Generating answers with LLM for each retrieval method...")
                     dense_prompt = self.build_prompt(query, dense_context)
                     sparse_prompt = self.build_prompt(query, sparse_context)
                     hybrid_prompt = self.build_prompt(query, hybrid_context)
@@ -144,23 +135,20 @@ class RetrieverEvaluator:
                     
                     labeled_batch.append(labeled_entry)
                 except Exception as e:
-                    print(f"❌ Error processing ID {query_id}: {e}")
                     continue
 
                 if len(labeled_batch) >= SAVE_INTERVAL:
-                    print(f"\n💾 Saving batch of {len(labeled_batch)} disk...")
                     async with aiofiles.open(output_path, 'a') as out_file:
                         for item in labeled_batch:
                             await out_file.write(json.dumps(item) + "\n")
                     labeled_batch = []
 
             if labeled_batch:
-                print(f"💾 Saving final batch of {len(labeled_batch)} to disk...")
                 async with aiofiles.open(output_path, "a") as out_file:
                     for item in labeled_batch:
                         await out_file.write(json.dumps(item) + "\n")
 
-            print("✅ Done! All remaining queries processed.\n")
+            print("Completed\n")
 
 
 if __name__ == "__main__":

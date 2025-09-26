@@ -1,12 +1,6 @@
 # ------------------------------------------------------------------------------
 # query_classifier/retrieval_benchmark.py - Benchmarking the retrieval performance of the three retrieval methods on quries.
 # ------------------------------------------------------------------------------
-"""
-Runs each query through the three retrieval methods and benchmarks their performance.
-Performs the following Qualitative and Quantitative evaluation.
-"""
-
-# Evaluation Metrics
 from bert_score import score as bert_score
 from rouge_score import rouge_scorer
 from sentence_transformers import SentenceTransformer, util
@@ -57,9 +51,7 @@ class RetrievalBenchmark:
 
     @property
     def rouge_scorer_instance(self) -> rouge_scorer.RougeScorer:
-        """Loads the ROUGE scorer model on its first access."""
         if self._rouge_scorer is None:
-            print("Lazy loading ROUGE scorer...")
             self._rouge_scorer = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
             print("ROUGE scorer loaded.")
         return self._rouge_scorer
@@ -68,9 +60,7 @@ class RetrievalBenchmark:
     def similarity_model_instance(self) -> SentenceTransformer:
         config_filepath = CONFIG_FILE_PATH
         config = read_yaml(config_filepath)
-        """Loads the SentenceTransformer model on its first access."""
         if self._similarity_model is None:
-            print("Lazy loading SentenceTransformer model (all-MiniLM-L6-v2)...")
             self._similarity_model = SentenceTransformer(config["retriever_transformer"]["transformer"])
             print("SentenceTransformer model loaded.")
         return self._similarity_model
@@ -99,17 +89,14 @@ class RetrievalBenchmark:
         if not generated_answer or not ground_truth:
             return {"bert_score_f1": 0.0, "rouge_l_f1": 0.0, "cosine_similarity": 0.0}
         
-        # 1. BERTScore
         P, R, F1 = bert_score(cands=[generated_answer], refs=[ground_truth], lang="en", model_type="distilroberta-base", device="cpu")
         bert_f1 = F1.mean().item() 
         print(f"BERTScore F1: {bert_f1:.4f}")
 
-        # 2. ROUGE-L Score
         rouge_scores = self.rouge_scorer_instance.score(ground_truth, generated_answer)
         rouge_l_f1 = rouge_scores['rougeL'].fmeasure
         print(f"ROUGE-L F1: {rouge_l_f1:.4f}")
 
-        # 3. Sentence-BERT Cosine Similarity
         embedding_gen = self.similarity_model_instance.encode(generated_answer, convert_to_tensor=True)
         embedding_gt = self.similarity_model_instance.encode(ground_truth, convert_to_tensor=True)
         cosine_sim = util.pytorch_cos_sim(embedding_gen, embedding_gt).item()
@@ -124,11 +111,9 @@ class RetrievalBenchmark:
     async def run_benchmark(self, input_path: str, output_path: str):
         Lsetup = LabelSetup()
         all_samples = Lsetup.load_samples(input_path)
-        print(f"✅ Loaded {len(all_samples)} samples from '{input_path}'.")
 
         existing_results = Lsetup.load_existing_samples(output_path)
         processed_ids = set(existing_results.keys())
-        print(f"✅ Found {len(processed_ids)} already processed samples. Skipping them.")
 
         samples_to_process = [s for s in all_samples if s.get("id") not in processed_ids]
 
@@ -140,15 +125,12 @@ class RetrievalBenchmark:
             ground_truth = sample.get("ground_truth")
 
             if not all([query_id, query]):
-                print(f"⚠️ Skipping sample at index {i-1} due to missing 'id', 'query', or 'ground_truth'.")
                 continue
 
-            print(f"\n--- [Processing Query {i}/{len(samples_to_process)}] ID: {query_id} ---")
+            print(f"\n Processing Query {i}/{len(samples_to_process)}] ID: {query_id}")
             print(f"Query: {query}")
 
             try:
-                # 1. Retrieve documents from all pipelines
-                print("📄 Retrieving documents for all methods...")
                 docs_dense, docs_sparse, docs_hybrid = await self.retrieve_docs(query)
 
                 contexts = {
@@ -157,8 +139,6 @@ class RetrievalBenchmark:
                 "hybrid": self.format_docs(docs_hybrid)
                 }
 
-                # 2. Generate an answer for each retrieval method
-                print("🤖 Generating answers with LLM for each context...")
                 prompts = {method: self.build_prompt(query, context) for method, context in contexts.items()}
 
                 gen_dense, gen_sparse, gen_hybrid = await asyncio.gather(
@@ -173,8 +153,6 @@ class RetrievalBenchmark:
                 "hybrid": gen_hybrid.strip()
                 }
 
-                # 3. Evaluate each generated answer
-                print("📈 Evaluating generated answers...")
                 eval_results = {}
 
                 for method, answer in generated_answers.items():
@@ -184,7 +162,6 @@ class RetrievalBenchmark:
                         "scores": self.evaluate_answer(answer, ground_truth)
                     }
                 
-                # 4. Assemble the final result object for this query
                 final_result = {
                     "id": query_id,
                     "query": query,
@@ -197,40 +174,31 @@ class RetrievalBenchmark:
                 results_batch.append(final_result)
 
             except Exception as e:
-                print(f"❌ Error processing query ID {query_id}: {e}")
                 results_batch.append({"id": query_id, "query": query, "status": "error", "reason": str(e)})
                 continue
 
-            # 5. Save progress periodically
             if len(results_batch) >= SAVE_INTERVAL:
-                print(f"\n💾 Saving batch of {len(results_batch)} results to disk...")
-                # Append to file
                 with open(output_path, 'a', encoding='utf-8') as f:
                     for item in results_batch:
                         f.write(json.dumps(item) + '\n')
                 results_batch = []
 
         if results_batch:
-            print(f"\n💾 Saving final batch of {len(results_batch)} results to disk...")
             with open(output_path, 'a', encoding='utf-8') as f:
                 for item in results_batch:
                     f.write(json.dumps(item) + '\n')
-
-        print("\n✅ Benchmark complete! All queries processed.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a full RAG benchmark with multiple retrieval methods and evaluations.")
     parser.add_argument(
         "--input", 
         type=str, 
-        required=True, 
-        help="Path to the input benchmark dataset (e.g., categorized_queries.jsonl)."
+        required=True
     )
     parser.add_argument(
         "--output", 
         type=str, 
-        required=True, 
-        help="Path to save the detailed evaluation results JSONL file."
+        required=True
     )
     args = parser.parse_args()
 

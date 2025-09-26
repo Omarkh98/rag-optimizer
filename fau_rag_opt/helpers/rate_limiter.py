@@ -1,5 +1,7 @@
+# ------------------------------------------------------------------------------
+# helpers/rate_limiter.py - Simple asynchronous rate limiter.
+# ------------------------------------------------------------------------------
 import asyncio
-import logging
 
 class RateLimiter:
     def __init__(self, max_calls, period):

@@ -1,11 +1,6 @@
 # ------------------------------------------------------------------------------
 # query_classifier/dataset_extractor.py - Query extraction from user-assistant conversations.
 # ------------------------------------------------------------------------------
-"""
-Loads `convos.jsonl` and extracts the initial user query asked to the assistant, the assistant's 
-initial response, as well as the conversation id.
-"""
-
 import json
 
 def extract_user_query_answer(input_path: str, output_path: str):
@@ -30,10 +25,7 @@ def extract_user_query_answer(input_path: str, output_path: str):
             for item in extracted:
                 outfile.write(json.dumps(item, ensure_ascii = False) + "\n")
         
-        print(f"✅ Extracted {len(extracted)} user queries to {output_path}")
-
     except Exception as e:
-        print(f"An unexpected error occurred while reading '{input_path}': {e}")
         return
 
 if __name__ == "__main__":

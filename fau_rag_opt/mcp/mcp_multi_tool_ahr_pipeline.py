@@ -1,28 +1,20 @@
 # ------------------------------------------------------------------------------
 # multi_tool_ahr_pipeline.py - The final, advanced RAG system.
 # ------------------------------------------------------------------------------
-"""
-The final capstone AHR system, which functions as a
-multi-tool orchestrator inspired by MCP principle.
-"""
 import re
 import json
-import asyncio
 from typing import List
 
 from fau_rag_opt.query_classifier.llm_response import llm_response
 from fau_rag_opt.query_classifier.labeler_config import labeler_config
 
-from fau_rag_opt.mcp import (
-    SelfQueryingTool,
-    QueryClassificationTool,
-    QueryExpansionTool,
-    RerankerTool)
+from fau_rag_opt.mcp.query_classification_tool import QueryClassificationTool
+from fau_rag_opt.mcp.self_querying_tool import SelfQueryingTool
+from fau_rag_opt.mcp.query_expansion_tool import QueryExpansionTool
+from fau_rag_opt.mcp.reranker_tool import RerankerTool
 
 class MultiToolAHRPipeline:
     def __init__(self):
-        """Initializes the multi-tool AHR system and all its components."""
-
         self.config = labeler_config
         self.llm_params = {
             "api_key": self.config.api_key,
@@ -30,12 +22,11 @@ class MultiToolAHRPipeline:
             "base_url": self.config.base_url
         }
 
-        self.self_querying_tool = SelfQueryingTool()
         self.query_classification_tool = QueryClassificationTool()
+        self.self_querying_tool = SelfQueryingTool()
         self.query_expansion_tool = QueryExpansionTool()
         self.reranker_tool = RerankerTool()
 
-        # --- Store tool methods in a dictionary for easy access ---
         self.tools = {
             "query_classification_retrieval": self.query_classification_tool.run,
             "query_expansion": self.query_expansion_tool.run,
@@ -43,82 +34,76 @@ class MultiToolAHRPipeline:
             "rerank": self.reranker_tool.run
         }
 
-        print("✅ Multi-Tool AHR Pipeline Initialized.")
-
-    # --- ORCHESTRATOR (MCP Implementation) ---
-    async def get_execution_plan(self, query: str) -> List[str]:
-        """The MCP-inspired planning step. The LLM decides which tools to use."""
-        print(f"\n--- AHR Planning for Query: '{query}' ---")
-
-        prompt = (
-            "You are a master RAG pipeline orchestrator. Based on the user's query, "
-            "create an optimal execution plan from the available tools. "
-            "Return ONLY a JSON list of tool names in the correct execution order.\n\n"
-            "--- Available Tools ---\n"
-            f"- `self_querying`: Use for queries with explicit filters (e.g., dates, categories).\n"
-            f"- `query_classification_retrieval`: The main retrieval step. Should almost always be included.\n"
-            f"- `query_expansion`: Use for broad or ambiguous queries to improve recall.\n"
-            f"- `rerank`: Use to refine and prioritize the best documents from a larger initial set.\n\n"
-            "--- Examples ---\n"
-            "Query: 'What are the main differences between AI and Data Science?' -> [\"query_classification_retrieval\", \"rerank\"]\n"
-            "Query: 'Tell me about research on compilers from 2023' -> [\"self_querying\", \"query_classification_retrieval\", \"rerank\"]\n"
-            "Query: 'What is artificial intelligence?' -> [\"query_expansion\", \"rerank\"]\n\n"
-            f"--- User Query ---\n"
-            f"\"{query}\""
-        )
-
-        response = await llm_response(**self.llm_params, prompt=prompt)
+    def _parse_llm_response(self, response: str, response_type: type = list):
         try:
-            # 1. Strip whitespace
-            clean_response = response.strip()
-            
-            # 2. Find the JSON list within the response using a regular expression
-            # This will find a string that starts with '[' and ends with ']'
-            match = re.search(r'\[.*\]', clean_response, re.DOTALL)
+            if "<|channel|>final<|message|>" in response:
+                response = response.split("<|channel|>final<|message|>")[-1]
+
+            match = re.search(r'```(json)?\s*(.*?)\s*```', response, re.DOTALL)
             if match:
-                json_string = match.group(0)
-                plan = json.loads(json_string)
-                if isinstance(plan, list) and all(isinstance(i, str) for i in plan):
-                    print(f"  -> Planner decided on plan: {plan}")
-                    return plan
+                clean_response = match.group(2)
+            else:
+                clean_response = response
+
+            parsed_json = json.loads(clean_response.strip())
+            
+            if isinstance(parsed_json, response_type):
+                return parsed_json
+            
         except (json.JSONDecodeError, TypeError):
             pass
         
-        print("  - Could not generate a valid plan, using default.")
-        return ["query_classification_retrieval"]
-    
-    async def run(self, query: str) -> List[str]:
-        """The main entrypoint. It gets a plan and executes it."""
-        plan = await self.get_execution_plan(query)
+        if response_type == str:
+            return response.strip()
         
-        # Initialize state that can be modified by tools
+        return None
+
+    async def get_execution_plan(self, query: str) -> List[str]:
+        print(f"\n--- AHR Planning for Query: '{query}' ---")
+        prompt = (
+            "You are a master orchestrator for a RAG pipeline. Your goal is to create an optimal execution plan. "
+            "Based on the user's query, return a JSON list of tool names in the correct execution order.\n\n"
+            "--- Available Tools ---\n"
+            "- `query_classification_retrieval`: The main retrieval tool. Classifies the query and uses the best alpha for hybrid search. Should almost always be used.\n"
+            "- `self_querying`: Use ONLY if the query contains explicit metadata filters (like a year '2023' or a category 'library'). Must come before retrieval.\n"
+            "- `query_expansion`: Use for short, broad, or ambiguous queries to get more comprehensive results. Must come before retrieval.\n"
+            "- `rerank`: Use to improve the quality of the final document list. Must come after retrieval.\n\n"
+            "--- Examples ---\n"
+            "Query: 'What is the difference between AI and Data Science?' -> [\"query_classification_retrieval\", \"rerank\"]\n"
+            "Query: 'student life' -> [\"query_expansion\", \"query_classification_retrieval\", \"rerank\"]\n"
+            "Query: 'Tell me about courses from 2023' -> [\"self_querying\", \"query_classification_retrieval\", \"rerank\"]\n"
+            "-------------------\n\n"
+            f"Query: \"{query}\""
+        )
+        response = await llm_response(**self.llm_params, prompt=prompt)
+        
+        plan = self._parse_llm_response(response, response_type=list)
+
+        if plan and all(tool in self.tools for tool in plan):
+            print(f" Planner decided on plan: {plan}")
+            return plan
+        
+        return ["query_classification_retrieval"]
+
+    async def run(self, query: str, plan: List[str] = None) -> List[str]:
+        if plan is None:
+            plan = await self.get_execution_plan(query)
+        else:
+            print(f" Using manually provided plan: {plan}")
+
         pipeline_state = {
-            "original_query": query,
-            "search_query": query,
-            "retrieved_docs": [],
-            "filters": {}
+            "original_query": query, "search_query": query,
+            "retrieved_docs": [], "filters": {}
         }
 
+        tool_params = self.llm_params.copy()
+        tool_params['parser'] = self._parse_llm_response
+        
         for tool_name in plan:
-            print(f"  -> Executing Tool: {tool_name}")
-            tool_function = self.tools[tool_name]
-            # Each tool receives the current state and can modify it
-            pipeline_state = await tool_function(pipeline_state, self.llm_params)
-
+            if tool_name in self.tools:
+                print(f"  -> Executing Tool: {tool_name}")
+                tool_instance = self.tools[tool_name]
+                pipeline_state = await tool_instance(pipeline_state, tool_params)
+        
         final_docs = pipeline_state.get("retrieved_docs", [])
-        print(f"--- Pipeline Finished. Final context has {len(final_docs)} documents. ---")
         return final_docs
-    
-if __name__ == '__main__':
-    async def run_examples():
-        pipeline = MultiToolAHRPipeline()
-
-        query1 = "What are the main differences between the Bachelor's in Computer Science and Business Information Systems?"
-        await pipeline.run(query1)
-        
-        print("\n" + "="*80 + "\n")
-        
-        query2 = "Tell me about research on compilers from 2023"
-        await pipeline.run(query2)
-
-    asyncio.run(run_examples())

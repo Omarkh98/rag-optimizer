@@ -1,3 +1,6 @@
+# ------------------------------------------------------------------------------
+# helpers/loader.py - Loading metadata from JSONL files.
+# ------------------------------------------------------------------------------
 import json
 import sys
 import logging
@@ -9,9 +12,6 @@ class MetadataLoader:
         self.file_path = file_path
 
     def load(self) -> List[Dict]:
-        """
-        Load metadata file into a list of dictionaries
-        """
         metadata = []
         try:
             with open(self.file_path, 'r', encoding='utf-8') as f:

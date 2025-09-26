@@ -1,10 +1,15 @@
 retriever_transformer:
   transformer: sentence-transformers/all-mpnet-base-v2
 
+# fau_llm:
+#   base_url: http://lme49.cs.fau.de:5000/v1/chat/completions
+#   api_key: xFhGltj52Gn
+#   model: TechxGenus_Mistral-Large-Instruct-2407-AWQ
+
 fau_llm:
-  base_url: http://lme49.cs.fau.de:5000/v1/chat/completions
-  api_key: xFhGltj52Gn
-  model: TechxGenus_Mistral-Large-Instruct-2407-AWQ
+  base_url: http://lme49.cs.fau.de:6000/v1/chat/completions
+  api_key: ""
+  model: gpt-oss-120b
 
 # fau_llm:
 #   base_url: http://10.28.89.125:6000/v1/chat/completions

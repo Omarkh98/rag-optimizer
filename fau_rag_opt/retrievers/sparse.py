@@ -1,4 +1,6 @@
-from sentence_transformers import SentenceTransformer
+# ------------------------------------------------------------------------------
+# retrievers/sparse.py - Sparse retrieval using TF-IDF and cosine similarity.
+# ------------------------------------------------------------------------------
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import nltk
@@ -26,7 +28,8 @@ class SparseRetrieval:
         self.metadata = metadata
 
         self.corpus = preprocess_knowledgebase(self.metadata)
-        # Safety checks
+
+        # Safety checks:
         assert isinstance(self.corpus, list)
         assert all(isinstance(x, str) for x in self.corpus)
 

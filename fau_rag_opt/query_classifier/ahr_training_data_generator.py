@@ -1,19 +1,6 @@
 # ------------------------------------------------------------------------------
 # ahr_training_data_generator.py - Creates the training set for the AHR model.
 # ------------------------------------------------------------------------------
-"""
-This script generates the ground truth data needed to train the regression-based
-AHR prediction model.
-
-For each query in the benchmark dataset, it performs an exhaustive search across
-a range of alpha values (0.0 to 1.0). For each alpha, it runs the full
-retrieval-generation-evaluation pipeline. The alpha that yields the highest
-BERTScore F1 is considered the "optimal alpha" for that query.
-
-The final output is a CSV file containing the query embedding and its
-corresponding optimal alpha, ready for model training.
-"""
-
 import pandas as pd
 import json
 import argparse
@@ -22,7 +9,6 @@ import numpy as np
 from typing import List, Dict, Set
 from pathlib import Path
 
-# Evaluation & Utility Imports
 from bert_score import score as bert_score_calc
 
 from ..helpers.labelling import LabelSetup
@@ -43,8 +29,7 @@ from ..constants.my_constants import (METADATA_PATH,
                                       TOP_K,
                                       HYBRID_ALPHA)
 
-# Define the range of alpha values to test for each query
-ALPHA_STEPS = np.linspace(0, 1, 11) # [0.0, 0.1, 0.2, ..., 1.0]
+ALPHA_STEPS = np.linspace(0, 1, 11)
 
 class AHRDataGenerator:
     def __init__(self, config: LabelerConfig):
@@ -77,25 +62,21 @@ class AHRDataGenerator:
         best_score = -1.0
         optimal_alpha = 0.5
         
-        # Get the query embedding once
         query_embedding = self.dense._run_encode_worker(query)
 
         per_alpha_results = []
 
         for alpha in ALPHA_STEPS:
-            print(f"  - Testing alpha = {alpha:.1f}...")
+            print(f"Testing alpha = {alpha:.1f}")
             
             hybrid_retriever = HybridRetrieval.from_config(alpha, retriever_config, self.metadata, self.index)
             
-            # 1. Retrieve
             retrieved_docs = await hybrid_retriever.retrieve(query, self.metadata, self.top_k)
             context = self.format_docs(retrieved_docs)
             
-            # 2. Generate
             prompt = self.build_prompt(query, context)
             generated_answer = await llm_response(self.api_key, self.model, self.base_url, prompt)
             
-            # 3. Evaluate
             if not generated_answer:
                 continue
             
@@ -113,10 +94,10 @@ class AHRDataGenerator:
                 best_score = current_score
                 optimal_alpha = alpha
         
-        print(f"  -> Optimal alpha for this query: {optimal_alpha} (Score: {best_score:.4f})")
+        print(f"Optimal alpha for this query: {optimal_alpha} (Score: {best_score:.4f})")
         return {
-            "query_text": query, # Save the text for analysis
-            "query_embedding": json.dumps(query_embedding[0].tolist()), # Serialize list for CSV
+            "query_text": query,
+            "query_embedding": json.dumps(query_embedding[0].tolist()),
             "optimal_alpha": optimal_alpha,
             "per_alpha_results": per_alpha_results
         }
@@ -132,19 +113,14 @@ class AHRDataGenerator:
             return set()
     
     async def generate_training_data(self, input_path: str, output_path: str):
-        """Main method to process all queries and generate the training dataset."""
         label_setup = LabelSetup()
         all_samples = label_setup.load_samples(input_path)
 
         processed_queries = self.get_processed_queries(output_path)
         if processed_queries:
-            print(f"✅ Found {len(processed_queries)} already processed queries. Resuming session.")
+            print(f"Found {len(processed_queries)} already processed queries. Resuming session...")
 
         samples_to_process = [s for s in all_samples if s.get("query") not in processed_queries]
-
-        print(f"✅ Starting... {len(samples_to_process)} queries remaining to process.")
-                  
-        print(f"✅ Loaded {len(all_samples)} samples to process for training data generation.")
 
         per_alpha_output_path = output_path + ".per_alpha.jsonl"
 
@@ -156,11 +132,10 @@ class AHRDataGenerator:
             for i, sample in enumerate(samples_to_process, 1):
                 query = sample.get("query")
                 ground_truth = sample.get("ground_truth")
-                print(f"\n--- [Processing Query {i}/{len(samples_to_process)}] ---")
+                print(f"\n[Processing Query {i}/{len(samples_to_process)}]")
                 try:
                     result = await self.find_optimal_alpha(query, ground_truth)
                     if result:
-                        # Write main CSV
                         escaped_query_text = result['query_text'].replace('"', '""')
                         query_text_csv = f'"{escaped_query_text}"'
                         query_embedding_csv = f"\"{result['query_embedding']}\""
@@ -168,7 +143,7 @@ class AHRDataGenerator:
                         csv_line = f"{query_text_csv},{query_embedding_csv},{optimal_alpha_csv}\n"
                         f.write(csv_line)
                         f.flush()
-                        # Write per-alpha results as JSONL
+
                         per_alpha_record = {
                             "query_text": result['query_text'],
                             "optimal_alpha": result['optimal_alpha'],
@@ -178,14 +153,14 @@ class AHRDataGenerator:
                         per_alpha_f.write(json.dumps(per_alpha_record, ensure_ascii=False) + "\n")
                         per_alpha_f.flush()
                 except Exception as e:
-                    print(f"❌ Error processing query: {query}. Error: {e}. Skipping.")
                     continue
-        print(f"\n✅ Training data generation complete. All results saved to '{output_path}' and '{per_alpha_output_path}'.")
+
+        print(f"\n Training data generation completed. All results saved to '{output_path}' and '{per_alpha_output_path}'.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate training data for the AHR regression model.")
-    parser.add_argument("--input", required=True, help="Path to the benchmark dataset.")
-    parser.add_argument("--output", required=True, help="Path to save the output training data CSV file.")
+    parser.add_argument("--input", required=True)
+    parser.add_argument("--output", required=True)
     args = parser.parse_args()
 
     generator = AHRDataGenerator(labeler_config)

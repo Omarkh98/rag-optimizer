@@ -19,45 +19,36 @@ class HybridWeightRegressor:
             learning_rate=0.1,
             max_depth=5,
             random_state=42,
-            n_jobs=-1  # Use all available CPU cores
+            n_jobs=-1
         )
-        print("Initializing a new XGBoost Regressor...")
 
     def load_training_data(self, input_path: str):
-        print("📂 Loading and preparing training data...")
         df = pd.read_csv(input_path)
         
-        # Safely parse the string representation of the embedding list
         X = np.array(df['query_embedding'].apply(json.loads).tolist(), dtype=np.float32)
         y = df['optimal_alpha'].values.astype(np.float32)
         
-        print(f"📊 Loaded {len(df)} samples.")
         return X, y
 
     def train(self, X_train: np.ndarray, y_train: np.ndarray):
-        print(f"🚀 Training hybrid weight regressor on {len(X_train)} samples...")
         self.regressor.fit(X_train, y_train)
 
     def evaluate(self, X_test: np.ndarray, y_test: np.ndarray):
-        print("\n--- Model Evaluation ---")
         preds = self.regressor.predict(X_test)
         
         mse = mean_squared_error(y_test, preds)
         r2 = r2_score(y_test, preds)
         
-        print(f"📊 Mean Squared Error (MSE) on test set: {mse:.6f}")
-        print(f"🎯 R-squared (R²) on test set: {r2:.4f}")
-        print("------------------------\n")
+        print(f"Mean Squared Error (MSE) on test set: {mse:.6f}")
+        print(f"R-squared (R²) on test set: {r2:.4f}")
         
-        print("🔍 Sample Predictions vs. True Values:")
         for i in range(min(5, len(X_test))):
-            print(f"  - Predicted Alpha: {preds[i]:.3f} | True Alpha: {y_test[i]:.3f}")
+            print(f"Predicted Alpha: {preds[i]:.3f} | True Alpha: {y_test[i]:.3f}")
 
         return preds, y_test
 
     def save_model(self, path: str):
         joblib.dump(self.regressor, path)
-        print(f"💾 Saved trained model to {path}")
 
     def visualize_performance(self, y_true, y_pred, output_path: str):
         plt.figure(figsize=(8, 8))
@@ -71,13 +62,12 @@ class HybridWeightRegressor:
         plt.grid(True)
         plt.legend()
         plt.savefig(output_path)
-        print(f"📈 Performance visualization saved to {output_path}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train the AHR regression model.")
-    parser.add_argument("--input", required=True, help="Path to the ahr_training_data.csv file.")
-    parser.add_argument("--model_out", default="ahr_alpha_regressor.joblib", help="Path to save the trained model.")
-    parser.add_argument("--plot_out", default="ahr_performance_plot.png", help="Path to save the performance plot.")
+    parser.add_argument("--input", required=True)
+    parser.add_argument("--model_out", default="ahr_alpha_regressor.joblib")
+    parser.add_argument("--plot_out", default="ahr_performance_plot.png")
     args = parser.parse_args()
 
     reg = HybridWeightRegressor()
@@ -91,4 +81,4 @@ if __name__ == "__main__":
     reg.save_model(args.model_out)
     reg.visualize_performance(true_vals, preds, args.plot_out)
 
-    print("✅ Done.")
+    print("Done.")
