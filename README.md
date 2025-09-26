@@ -44,58 +44,99 @@ The objective of this work is to research, implement, and evaluate advanced retr
 ```
 rag-optimizer/
 │
-├── fau_rag_opt/                       # Main package
-│   ├── __init__.py
-│   ├── constants/
-│   │   └── my_constants.py
-│   ├── experiments/
-│   │   ├── retrieval_level_analysis.py
-│   │   └── ahr_results_demo.py
-│   ├── helpers/
-│   │   ├── __init__.py
-│   │   ├── labelling.py
-│   │   └── utils.py
-│   ├── knowledgebase/
-│   │   ├── __init__.py
-│   │   └── categorized_queries.jsonl
-│   ├── mcp/
-│   │   ├── __init__.py
-│   │   ├── mcp_multi_tool_ahr_pipeline.py
-│   │   ├── query_classification_tool.py
-│   │   ├── self_querying_tool.py
-│   │   ├── query_expansion_tool.py
-│   │   └── reranker_tool.py
-│   ├── query_classifier/
-│   │   ├── __init__.py
-│   │   ├── ahr_training_data_generator.py
-│   │   ├── labeler_config.py
-│   │   └── llm_response.py
-│   ├── retrievers/
-│   │   ├── __init__.py
-│   │   ├── base.py
-│   │   ├── dense.py
-│   │   ├── sparse.py
-│   │   └── hybrid.py
-│   └── optimization/
-│       ├── __init__.py
-│       └── query_optimizer.py
-│
-├── config/
-│   └── default_config.yaml
-│
-├── scripts/                           # Utility scripts for running experiments, data prep, etc.
-│   └── run_pipeline.py
-│
-├── tests/                             # Unit and integration tests
-│   ├── __init__.py
-│   ├── test_retrievers.py
-│   ├── test_query_classifier.py
-│   └── test_mcp_tools.py
-│
-├── requirements.txt
+├── benchmark_plots
+│   ├── ahr_performance_plot.png
+│   ├── category_bert_score_f1.png
+│   ├── category_cosine_similarity.png
+│   ├── category_rouge_l_f1.png
+│   ├── overall_performance.png
+│   ├── retireval_level_evaluation_by_method.png
+│   └── win_comparison.png
+├── fau_rag_opt
+│   ├── config
+│   │   ├── config.yaml
+│   │   └── __init__.py
+│   ├── constants
+│   │   ├── __init__.py
+│   │   └── my_constants.py
+│   ├── experiments
+│   │   ├── 01_experiments
+│   │   │   ├── 01_label_distribution.ipynb
+│   │   │   ├── 03_baseline_classifier.ipynb
+│   │   │   ├── 05_classifiers_comp.ipynb
+│   │   │   ├── 06_classifier_testing.ipynb
+│   │   │   └── images
+│   │   │       ├── Classifier_Performance_Comp.png
+│   │   │       ├── Initial_Label_Dist.png
+│   │   │       └── New_Label_Dist.png
+│   │   ├── 02_experiments
+│   │   │   ├── 01_label_distribution_encoding.ipynb
+│   │   │   ├── 02_label_quality_diagnosis.ipynb
+│   │   │   ├── 03_hybrid_weight_regressor.py
+│   │   │   └── images
+│   │   │       └── Initial_Label_Distribution.png
+│   │   ├── ahr_alpha_regressor.joblib
+│   │   ├── benchmark_analysis_viz.py
+│   │   ├── final_benchmark_demo.py
+│   │   ├── __init__.py
+│   │   ├── qualitative_analysis.py
+│   │   ├── qualitative_eval_app.py
+│   │   └── retrieval_level_analysis.py
+│   ├── helpers
+│   │   ├── encode_worker.py
+│   │   ├── exception.py
+│   │   ├── __init__.py
+│   │   ├── labelling.py
+│   │   ├── loader.py
+│   │   ├── rate_limiter.py
+│   │   └── utils.py
+│   ├── __init__.py
+│   ├── knowledgebase
+│   │   ├── ahr_training_data.csv
+│   │   ├── ahr_training_data.csv.per_alpha.jsonl
+│   │   ├── categorized_queries.jsonl
+│   │   ├── convos.jsonl
+│   │   ├── extracted_queries.jsonl
+│   │   ├── __init__.py
+│   │   ├── qualitative_eval_results.csv
+│   │   ├── quality_html-pdf.jsonl
+│   │   ├── retrieval_benchmark.jsonl
+│   │   └── vector_index_fau.faiss
+│   ├── mcp
+│   │   ├── __init__.py
+│   │   ├── mcp_multi_tool_ahr_pipeline.py
+│   │   ├── query_classification_tool.py
+│   │   ├── query_expansion_tool.py
+│   │   ├── reranker_tool.py
+│   │   ├── reranker_worker.py
+│   │   └── self_querying_tool.py
+│   ├── query_classifier
+│   │   ├── ahr_training_data_generator.py
+│   │   ├── dataset_categorization.py
+│   │   ├── dataset_extractor.py
+│   │   ├── eval_answer_quality.py
+│   │   ├── hybrid_weight_regressor_xg.py
+│   │   ├── hybrid_weight_regressor.py
+│   │   ├── __init__.py
+│   │   ├── labeler_config.py
+│   │   ├── llm_response.py
+│   │   └── retrieval_benchmark.py
+│   └── retrievers
+│       ├── base.py
+│       ├── dense.py
+│       ├── hybrid.py
+│       ├── __init__.py
+│       └── sparse.py
 ├── LICENSE
+├── pyproject.toml
 ├── README.md
-└── .gitignore
+├── requirements.txt
+└── tests
+    ├── __init__.py
+    ├── pytest.ini
+    ├── test_dense_retrieval.py
+    ├── test_hybrid_retrieval.py
+    └── test_sparse_retrieval.py
 ```
 
 ## License
